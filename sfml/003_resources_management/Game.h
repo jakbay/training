@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-#include "TextureHolder.h"
+#include "ResourceHolder.h"
 
 class Game
 {
@@ -16,7 +16,7 @@ private:
 	void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 
 	sf::RenderWindow mWindow;
-	TextureHolder mTextures;
+	ResourceHolder<sf::Texture, Textures::ID> mTextures;
 	sf::Sprite mBackground;
 	sf::Sprite mPlayer;
 	bool mIsMovingUp;
