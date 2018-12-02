@@ -57,24 +57,25 @@ def manage_collisions(star_to_update, stars):
             star_tk.mass = star_tk.mass + star_tr.mass
             star_tk.volume = star_tk.mass / star_tk.density
             star_tk.radius = ((3 * star_tk.volume) / 4 * np.pi)**(1/3)
-            star_tk.velocity = (0.8 * star_tr.mass * (star_tr.velocity - star_tk.velocity) + star_tk.mass * star_tk.velocity + star_tr.mass * star_tr.velocity) / (star_tk.mass + star_tr.mass)
+            star_tk.velocity = (0.1 * star_tr.mass * (star_tr.velocity - star_tk.velocity) + star_tk.mass * star_tk.velocity + star_tr.mass * star_tr.velocity) / (star_tk.mass + star_tr.mass)
             star_tk.acceleration = vp.vector(0, 0, 0)
             index = np.argwhere(stars == star_tr)
             stars = np.delete(stars, index)
             star_tr.visible = False
+            star_tr.clear_trail()
             del star_tr
             max_stars = max_stars - 1
     return stars
 
 
-scene = vp.canvas(title = 'Binary system', width = 1900, height = 850)
+scene = vp.canvas(title = 'Space soup', width = 1900, height = 850)
 
 stars = np.empty(0)
-h0 = 2.5e-6
+h0 = 2.5e-7
 
 star_nb = 0
 while star_nb < max_stars:
-    star = vp.sphere(pos = vp.vector(ri(), ri(), ri()), radius = rd(), color = r_color(), make_trail = False)
+    star = vp.sphere(pos = vp.vector(ri(), ri(), ri()), radius = rd(), color = r_color(), make_trail = True, retain = 50)
     star.velocity = vp.vector(0, 0, 0)
     star.acceleration = vp.vector(0, 0, 0)
     star.volume = 4/3 * np.pi * star.radius**3
@@ -90,9 +91,9 @@ while star_nb < max_stars:
     print("========================")
     star_nb = star_nb + 1
 
-deltaT = 1000
+deltaT = 2000
 while star_nb > 1:
-    vp.rate(20)
+    vp.rate(50)
     i = 0
     while i < max_stars:
         stars[i].pos = stars[i].pos + stars[i].velocity * deltaT
